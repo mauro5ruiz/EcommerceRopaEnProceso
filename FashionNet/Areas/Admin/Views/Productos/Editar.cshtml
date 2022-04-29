@@ -1,0 +1,60 @@
+﻿@model FashionNet.Modelos.ViewModels.ProductoVM
+
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    @*Favicon*@
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <link href="~/lib/slick/slick.css" rel="stylesheet">
+    <link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<h2>Editar Producto</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Editar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Producto.ProductoId" />
+            <div class="form-group">
+                <label asp-for="Producto.CategoriaId" class="control-label"></label>
+                @Html.DropDownListFor(m => m.Producto.CategoriaId, Model.ListaCategorias,
+                   "Selecciona la categoría", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.SubCategoriaId" class="control-label"></label>
+                <select asp-for="Producto.SubCategoriaId" asp-items="Model.ListaSub" class="form-control">
+                    <option value="0">Seleccione la sub-categoría</option>
+                </select>
+                <span asp-validation-for="Producto.SubCategoriaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.MarcaId" class="control-label"></label>
+                @Html.DropDownListFor(m => m.Producto.MarcaId, Model.ListaMarcas,
+                   "Selecciona la marca", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.Descripcion" class="control-label"></label>
+                <input asp-for="Producto.Descripcion" class="form-control" />
+                <span asp-validation-for="Producto.Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto.Precio" class="control-label"></label>
+                <input asp-for="Producto.Precio" class="form-control" />
+                <span asp-validation-for="Producto.Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirmar" class="btn btn-warning" />
+                @Html.ActionLink("Volver a la Lista", "Index", new { }, new { @class = "btn btn-info" })
+            </div>
+        </form>
+    </div>
+</div>
+<partial name="_Footer2" />

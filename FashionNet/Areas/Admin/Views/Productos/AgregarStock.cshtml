@@ -1,0 +1,97 @@
+﻿@model FashionNet.Modelos.ViewModels.AgregarStockVm
+@{
+    ViewBag.Title = "Agregar Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    @*Favicon*@
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <link href="~/lib/slick/slick.css" rel="stylesheet">
+    <link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<h2 class="text-center">Agregar Stock</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Categoria" class="control-label"></label>
+            </div>
+            <div class="col-4">
+                @Html.DropDownListFor(m => m.CategoriaTalleId, Model.ListaCategoriaTalles,
+               "Selecciona la categoría", new { @id = "CategoriaId", @class = "form-control" })
+                <span asp-validation-for="CategoriaTalleId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Talle" class="control-label"></label>
+            </div>
+            <div class="col-4">
+                @Html.DropDownListFor(m => m.TalleId, new List<SelectListItem>(),
+               "Selecciona el talle", new { @id = "TalleId", @class = "form-control" })
+                <span asp-validation-for="TalleId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Color" class="control-label"></label>
+            </div>
+            <div class="col-4">
+                @Html.DropDownListFor(m => m.ColorId, Model.ListaColores,
+               "Selecciona el color", new { @id = "ColorId", @class = "form-control" })
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Cantidad" class="control-label"></label>
+            </div>
+            <div class="col-2">
+                @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group text-center">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Agregar" class="btn btn-primary" /> --.--.--.--
+                @Html.ActionLink("Volver", "Create", new { }, new { @class = "btn btn-success" })
+            </div>
+        </div>
+    </div>
+}
+<partial name="_Footer2" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#CategoriaId").change(function () {
+                $.get("/Admin/Productos/GetTalles", { CategoriaId: $("#CategoriaId").val() }, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#TalleId").empty();
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                    $("#TalleId").append("<option value> --Talle para: " + $("#CategoriaId option:selected").text() + " --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#TalleId").append("<option value='" + row.talleId + "'>" + row.nombreTalle + "</option>")
+                    });
+                });
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<FashionNet.Modelos.Categoria>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    @*Favicon*@
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <link href="~/lib/slick/slick.css" rel="stylesheet">
+    <link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<h1>Index</h1>
+
+<p class="text-center">
+    <a asp-action="Create" class="btn btn-success">Nueva categoria</a>
+</p>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border">
+            <div class="card-header">
+                <h3><strong>Lista de Usuarios</strong></h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                @if (Model.Count() > 0)
+                {
+                    <table class="table table-bordered" id="tablaCategorias" width="100%" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(u => u.Nombre)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(m => item.Nombre)</td>
+                                    <td>
+                                        <a class="btn btn-primary" asp-action="Editar" asp-route-id="@item.CategoriaId">Editar</a>
+                                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CategoriaId">Borrar</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No hay Registros</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_Footer2" />
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#tablaCategorias").DataTable({
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        })
+    </script>
+}

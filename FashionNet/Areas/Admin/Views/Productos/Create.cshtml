@@ -1,0 +1,175 @@
+﻿@model FashionNet.Modelos.ViewModels.ProductoVM
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    @*Favicon*@
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <link href="~/lib/slick/slick.css" rel="stylesheet">
+    <link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<h1 class="text-center">Crear Producto</h1>
+
+<hr />
+<h4>Detalles</h4>
+<div class="row">
+    <div class="col-md-6" style="float:right">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Producto.CategoriaId" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m => m.Producto.CategoriaId, Model.ListaCategorias,
+                   "Selecciona la categoría", new { @id = "CategoriaId", @class = "form-control" })
+                    <span asp-validation-for="Producto.CategoriaId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Producto.SubCategoriaId" class="control-label"></label>
+                </div>
+                @*<div class="col-8">
+                <select asp-for="Producto.SubCategoriaId" asp-items="Model.ListaSub" id="SubCategoriaId" class="form-control">
+                    <option value="0">Seleccione la sub-categoría</option>
+                </select>
+                <span asp-validation-for="Producto.SubCategoriaId" class="text-danger"></span>
+            </div>*@
+                <div class="col-8">
+                    @Html.DropDownListFor(m => m.Producto.SubCategoriaId, Model.ListaSubCategorias,
+                   "Selecciona la marca", new { @id = "SubCategoriaId", @class = "form-control" })
+                    <span asp-validation-for="Producto.SubCategoriaId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Producto.MarcaId" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(m => m.Producto.MarcaId, Model.ListaMarcas,
+                   "Selecciona la marca", new { @class = "form-control" })
+                    <span asp-validation-for="Producto.MarcaId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Producto.Descripcion" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Producto.Descripcion" class="form-control" />
+                    <span asp-validation-for="Producto.Descripcion" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Producto.Precio" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Producto.Precio" class="form-control" />
+                    <span asp-validation-for="Producto.Precio" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Imagen.UrlImagen"></label>
+                </div>
+                <div class="col-8">
+                    <input type="file" name="mysFiles" id="file" asp-for="mysFiles" class="form-control" multiple />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Producto.Activo" class="control-label"></label>
+                </div>
+                <div class="col-8">
+                    <input type="checkbox" checked="checked" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-10">
+                    <input type="submit" value="Crear" class="btn btn-primary" />
+                    @Html.ActionLink("Agregar Stocks", "AgregarStock", new { }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Volver a la Lista", "Index", new { }, new { @class = "btn btn-info" })
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6" style="float:left">
+        <h4>Detalles</h4>
+        @if (Model.Detalles.Count > 0)
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Detalles[0].Color)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Detalles[0].Talle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Detalles[0].Cantidad)
+                    </th>
+                    <th></th>
+
+                </tr>
+
+                @foreach (var item in Model.Detalles)
+                {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color.Nombre)
+                </td>
+
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Talle.NombreTalle)
+                </td>
+                <td style="text-align: right">
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                    @Html.ActionLink("Borrar", "BorrarProducto", new { id = item.DetalleProductoId }, new { @class = " btn btn-danger", onclick = "return confirm('¿Desea borrar este ítem?')" })
+                </td>
+            </tr>
+                }
+
+            </table>}
+        else
+        {
+            <h5>No hay stock agregados</h5>
+        }
+    </div>
+</div>
+<partial name="_Footer2" />
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+            $("#CategoriaId").change(function () {
+                console.log("si");
+                $.get("/Admin/Productos/GetSubCategorias", { CategoriaId: $("#CategoriaId").val() }, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#SubCategoriaId").empty();
+                    // AÑADIMOS UN NUEVO label CON EL NOMBRE DEL ELEMENTO SELECCIONADO
+                    $("#SubCategoriaId").append("<option value> --SubCategoría para: " + $("#CategoriaId option:selected").text() + " --</option>")
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#SubCategoriaId").append("<option value='" + row.subCategoriaId + "'>" + row.nombre + "</option>")
+                    });
+                });
+            });
+        });
+    </script>
+
+}

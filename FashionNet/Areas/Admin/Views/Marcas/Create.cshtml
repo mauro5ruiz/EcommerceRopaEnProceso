@@ -1,0 +1,46 @@
+﻿@model FashionNet.Modelos.Marca
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    @*Favicon*@
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <link href="~/lib/slick/slick.css" rel="stylesheet">
+    <link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<h1>Crear nueva Marca</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group ">
+                <label asp-for="UrlImagen"></label>
+                <input type="file" name="archivos" id="subidaArchivos" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+                @Html.ActionLink("Volver a la Lista", "Index", new { }, new { @class = "btn btn-info" })
+            </div>
+        </form>
+    </div>
+</div>
+<partial name="_Footer2" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<FashionNet.Modelos.Usuario>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    @*Favicon*@
+    <link href="~/img/favicon.ico" rel="icon">
+
+    <link href="~/lib/slick/slick.css" rel="stylesheet">
+    <link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/css/style.css" rel="stylesheet">
+</head>
+
+<div class="border">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Lista de Usuarios</h2>
+        </div>
+        <div class="col-6">
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-info">
+                <i class="fas fa-plus"></i> &nbsp; Registrar un nuevo usuario
+            </a>
+        </div>
+    </div>
+
+    </br>
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-striped border" id="tablaUsuarios">
+            <tr class="table-secondary">
+                <th>@Html.DisplayNameFor(m => m.Nombre)</th>
+                <th>@Html.DisplayNameFor(m => m.Email)</th>
+                <th>@Html.DisplayNameFor(m => m.PhoneNumber)</th>
+                <th>Acciones</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
+                        {
+                            <a class="btn btn-success text-white" asp-action="Bloquear" style="width:50px;" asp-route-id="@item.Id">
+                                <i class="fas fa-lock-open"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-danger text-white" asp-action="Desbloquear" style="width:50px;" asp-route-id="@item.Id">
+                                <i class="fas fa-lock"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>No existen Usuarios...</p>
+    }
+</div>
+<partial name="_Footer2" />
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#tablaUsuarios").DataTable({
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        })
+    </script>
+}

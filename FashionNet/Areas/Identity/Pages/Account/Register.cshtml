@@ -1,0 +1,70 @@
+﻿@page
+@using FashionNet.Utilidades
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<link href="~/lib/slick/slick.css" rel="stylesheet">
+<link href="~/lib/slick/slick-theme.css" rel="stylesheet">
+
+<!-- Template Stylesheet -->
+<link href="~/css/style.css" rel="stylesheet">
+<h1 class="text-center">Registro de nuevo Usuario</h1>
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Crear una nueva cuenta.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Nombre" class="control-label"></label>
+                <input asp-for="Input.Nombre" class="form-control" />
+                <span asp-validation-for="Input.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Apellido" class="control-label"></label>
+                <input asp-for="Input.Apellido" class="form-control" />
+                <span asp-validation-for="Input.Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.NumeroCelular" class="control-label"></label>
+                <input asp-for="Input.NumeroCelular" class="form-control" />
+                <span asp-validation-for="Input.NumeroCelular" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            @if (User.IsInRole(CNT.Admin))
+            {
+                <div class="form-group">
+                    <label class="control-label">Rol de Usuario</label>
+                    <div class="col-5 offset-3">
+                        <input type="radio" name="radUsuarioRole" value="@CNT.Admin" />@CNT.Admin
+                        <input type="radio" name="radUsuarioRole" value="@CNT.Usuario" />@CNT.Usuario
+                    </div>
+                </div>
+            }
+            <button type="submit" class="btn btn-success">Registrar</button>
+        </form>
+    </div>
+</div>
+<partial name="_Footer2" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
